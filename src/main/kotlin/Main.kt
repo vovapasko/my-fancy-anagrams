@@ -1,10 +1,16 @@
 package org.example
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 fun main() {
-    val name = "Kotlin"
-    //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-    // to see how IntelliJ IDEA suggests fixing it.
-    println("Hello, $name!")
+    val textOne = "Hello"
+    val textTwo = "World"
+
+    val areAnagrams = areAnagrams(textOne, textTwo)
+    println(areAnagrams)
+
 }
+
+fun areAnagrams(str1: String, str2: String): Boolean {
+    return str1.lowercase().filter { it.isLetter() }.groupBy { it }.mapValues { it.value.size } ==
+            str2.lowercase().filter { it.isLetter() }.groupBy { it }.mapValues { it.value.size }
+}
+
