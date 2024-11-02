@@ -1,51 +1,40 @@
 import kotlinx.cli.*
+import kotlin.system.exitProcess
 
 
-fun main(args: Array<String>) {
-    val parser = ArgParser("example")
-    val inMemoryAnagramEngine = InMemoryAnagramEngine()
-    println("History is ${inMemoryAnagramEngine.history}")
-    val anagramsCommand = AnagramsCommand(inMemoryAnagramEngine)
-    val historyCommand = HistoryCommand(inMemoryAnagramEngine)
-    parser.subcommands(anagramsCommand, historyCommand)
-    parser.parse(args)
-}
+fun main() {
+    val engine = InMemoryAnagramEngine()
+    while (true) {
+        println("Enter the command: (a for anagrams, h for history). Press everything else to exit.")
+        val command = readln()
 
-@OptIn(ExperimentalCli::class)
-class AnagramsCommand(private val engine: AnagramEngine) :
-    Subcommand("anagrams", "Prints if two input texts are anagrams or not") {
-    val anagrams by argument(
-        ArgType.String,
-        fullName = "anagrams",
-        description = "Prints if two input texts are anagrams or not"
-    ).multiple(2)
-
-
-    override fun execute() {
-        if (anagrams.size != 2) {
-            throw IllegalArgumentException("Two input texts are required")
-        }
-        when (engine.areAnagrams(anagrams[0], anagrams[1])) {
-            true -> println("${anagrams[0]} and ${anagrams[1]} are anagrams")
-            false -> println("${anagrams[0]} and ${anagrams[1]} are NOT anagrams")
+        when (command) {
+            "a" -> anagrams(engine)
+            "h" -> history(engine)
+            else -> exitProcess(0)
         }
     }
 }
 
-@OptIn(ExperimentalCli::class)
-class HistoryCommand(private val engine: AnagramEngine) :
-    Subcommand("history", "Prints all anagrams from input history") {
-    val history by argument(
-        ArgType.String,
-        fullName = "history",
-        description = "Prints all anagrams from input history"
-    )
-
-    override fun execute() {
-        engine.anagramFromHistory(history).forEach { println(it) }
+fun history(engine: AnagramEngine) {
+    println("Enter the text: ")
+    val input = readln()
+    println("The previous anagrams are: ")
+    val previousAnagrams = engine.anagramFromHistory(input)
+    when (previousAnagrams.size) {
+        0 -> println("No anagrams found")
+        else -> previousAnagrams.forEach { println(it) }
     }
 }
 
+fun anagrams(engine: AnagramEngine) {
+    println("Enter the first text: ")
+    val anagram1 = readln()
+    println("Enter the second text: ")
+    val anagram2 = readln()
 
-
-
+    when (engine.areAnagrams(anagram1, anagram2)) {
+        true -> println("$anagram1 and $anagram2 are anagrams")
+        false -> println("$anagram1 and $anagram2 are not anagrams")
+    }
+}
