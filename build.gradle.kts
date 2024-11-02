@@ -1,5 +1,7 @@
 plugins {
     kotlin("jvm") version "2.0.20"
+    application
+    id("com.github.johnrengelman.shadow") version "8.1.1" // Check for the latest version
 }
 
 group = "org.example"
@@ -16,4 +18,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+application {
+    mainClass.set("MainKt")  // Update with your main class
 }

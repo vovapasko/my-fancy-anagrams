@@ -1,7 +1,3 @@
-package org.example
-
-import transformToMap
-
 class InMemoryAnagramEngine : AnagramEngine {
     val history = mutableMapOf<String, Map<Char, Int>>()
 
