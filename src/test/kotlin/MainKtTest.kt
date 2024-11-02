@@ -79,7 +79,7 @@ class InMemoryAnagramEngineTest {
 
 
             inMemoryAnagramEngine.history.putAll(history)
-            assertEquals(output, inMemoryAnagramEngine.anagramFromHistory(history, input))
+            assertEquals(output, inMemoryAnagramEngine.anagramFromHistory(input))
         }
     }
 

@@ -9,7 +9,7 @@ class InMemoryAnagramEngine : AnagramEngine {
     }
 
     // Returns all string anagrams from input history
-    override fun anagramFromHistory(history: Map<String, Map<Char, Int>>, inputString: String): List<String> {
+    override fun anagramFromHistory(inputString: String): List<String> {
         val anagrams = history.filterValues { value -> value == inputString.transformToMap() }
         return anagrams.keys.toList()
     }
